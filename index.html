@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+    <p>The Strokes</p>
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">someday</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">lastnite</span>
+    </div>
+    <div data-key="82" class="key">
+      <kbd>R</kbd>
+      <span class="sound">reptilia</span>
+    </div>
+  </div>
+
+
+  <audio data-key="83" src="sounds/someday.mp3"></audio>
+  <audio data-key="76" src="sounds/lastnite.mp3"></audio>
+  <audio data-key="82" src="sounds/reptilia.mp3"></audio>
+
+<script>
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"] `);
+    if(!audio) return; // stops the function
+    audio.currentTime = 0; // rewinds to the start
+    audio.play();
+    key.classList.add('playing');
+  }
+    function removeTransition(e) {
+    if(e.propertyName !== 'transform') return;
+    this.classList.remove('playing');
+  }
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
+</html>
